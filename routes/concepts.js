@@ -1,11 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth');
+const { check, validationResult } = require('express-validator');
+const config = require('config');
+
+const User = require('../models/User');
+const Concept = require('../models/Concept');
 
 // @route GET api/concepts
 // @decs Get all concepts
 // @acess Private
-router.get('/', (req, res) => {
-  res.send('Get all concepts');
+router.get('/', auth, async (req, res) => {
+  try {
+    const concepts = await Concept.find({ user: req.user.id }).sort({
+      date: -1,
+    });
+    res.json(concepts);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Eror');
+  }
 });
 
 // @route POST api/concepts
