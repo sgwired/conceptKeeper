@@ -25,9 +25,40 @@ router.get('/', auth, async (req, res) => {
 // @route POST api/concepts
 // @decs Add a concept
 // @acess Private
-router.post('/', (req, res) => {
-  res.send('Add a concept');
-});
+router.post(
+  '/',
+  [
+    auth,
+    [
+      check('title', 'Please enter a conept name').not().isEmpty(),
+      check('description', 'Please enter a description of the concept')
+        .not()
+        .isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { title, description, patent } = req.body;
+
+    try {
+      const newConcept = new Concept({
+        title,
+        description,
+        patent,
+        user: req.user.id,
+      });
+      const concept = await newConcept.save();
+
+      res.json(concept);
+    } catch (error) {
+      console.error('there was an error');
+    }
+  }
+);
 
 // @route PUT api/concepts/:id
 // @decs Update a concept
