@@ -99,8 +99,26 @@ router.put('/:id', auth, async (req, res) => {
 // @route DELETE api/concepts/:id
 // @decs Delete a concept
 // @acess Private
-router.delete('/:id', (req, res) => {
-  res.send('Delete a concept');
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    let concept = await Concept.findById(req.params.id);
+
+    if (!concept) return res.status(404).json({ msg: 'Concept not found' });
+
+    // Confirm user owns concept
+    if (concept.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    await Concept.findOneAndRemove(req.params.id);
+
+    res.json({ msg: 'Contact removed' });
+
+    res.json(concept);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Eror');
+  }
 });
 
 module.exports = router;
