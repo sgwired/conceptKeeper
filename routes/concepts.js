@@ -6,6 +6,7 @@ const config = require('config');
 
 const User = require('../models/User');
 const Concept = require('../models/Concept');
+const { json } = require('express');
 
 // @route GET api/concepts
 // @decs Get all concepts
@@ -18,7 +19,7 @@ router.get('/', auth, async (req, res) => {
     res.json(concepts);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Eror');
+    res.status(500).send('Server Error');
   }
 });
 
@@ -63,8 +64,36 @@ router.post(
 // @route PUT api/concepts/:id
 // @decs Update a concept
 // @acess Private
-router.put('/:id', (req, res) => {
-  res.send('Update a concept');
+router.put('/:id', auth, async (req, res) => {
+  const { title, description, patent } = req.body;
+
+  // Build concept object
+  const conceptFields = {};
+  if (title) conceptFields.title = title;
+  if (description) conceptFields.description = description;
+  if (patent) conceptFields.patent = patent;
+
+  try {
+    let concept = await Concept.findById(req.params.id);
+
+    if (!concept) return res.status(404).json({ msg: 'Concept not found' });
+
+    // Confirm user owns concept
+    if (concept.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'Not authorized' });
+    }
+
+    concept = await Concept.findByIdAndUpdate(
+      req.params.id,
+      { $set: conceptFields },
+      { new: true }
+    );
+
+    res.json(concept);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Eror');
+  }
 });
 
 // @route DELETE api/concepts/:id
