@@ -1,8 +1,22 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ConceptContext from '../../context/concept/conceptContext';
 
 export const ConceptForm = () => {
   const conceptContext = useContext(ConceptContext);
+
+  const { addConcept, current, clearCurrent, updateConcept } = conceptContext;
+
+  useEffect(() => {
+    if (current != null) {
+      setConcept(current);
+    } else {
+      setConcept({
+        title: '',
+        description: '',
+        patent: 'no patent',
+      });
+    }
+  }, [conceptContext, current]);
 
   const [concept, setConcept] = useState({
     title: '',
@@ -17,8 +31,11 @@ export const ConceptForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    conceptContext.addConcept(concept);
+    if (current === null) {
+      addConcept(concept);
+    } else {
+      updateConcept(concept);
+    }
 
     setConcept({
       title: '',
@@ -27,9 +44,15 @@ export const ConceptForm = () => {
     });
   };
 
+  const clearAll = () => {
+    clearCurrent();
+  };
+
   return (
     <form onSubmit={onSubmit}>
-      <h2 className='text-primary'>Add Concept</h2>
+      <h2 className='text-primary'>
+        {current ? 'Update Contact' : 'Add Concept'}
+      </h2>
       <input
         type='text'
         placeholder='title'
@@ -38,15 +61,13 @@ export const ConceptForm = () => {
         onChange={onChange}
       />
       <textarea
-        name=''
-        id=''
+        name='description'
         cols='30'
         rows='10'
         onChange={onChange}
         placeholder='description'
-      >
-        {description}
-      </textarea>
+        value={description}
+      ></textarea>
       <h4>Patent</h4>
       <input
         type='radio'
@@ -67,10 +88,17 @@ export const ConceptForm = () => {
       <div>
         <input
           type='submit'
-          value='Add New Concept'
-          className='btn btn-primary btn-blocl'
+          value={current ? 'Update Contact' : 'Add New Concept'}
+          className='btn btn-primary btn-block'
         />
       </div>
+      {current && (
+        <div>
+          <button className='btn btn-light btn-block' onClick={clearAll}>
+            Clear
+          </button>
+        </div>
+      )}
     </form>
   );
 };

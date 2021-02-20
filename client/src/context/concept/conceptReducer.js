@@ -22,6 +22,15 @@ export default (state, action) => {
           (concept) => concept.id !== action.payload
         ),
       };
+
+    case UPDATE_CONCEPT:
+      return {
+        state,
+        concepts: state.concepts.map((concept) =>
+          concept.id === action.payload.id ? action.payload : concept
+        ),
+      };
+
     case SET_CURRENT:
       return {
         ...state,

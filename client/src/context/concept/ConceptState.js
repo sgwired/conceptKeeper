@@ -61,6 +61,9 @@ const ConceptState = (props) => {
   };
 
   // Update Concept
+  const updateConcept = (concept) => {
+    dispatch({ type: UPDATE_CONCEPT, payload: concept });
+  };
 
   // Filter Concepts
 
@@ -73,6 +76,7 @@ const ConceptState = (props) => {
         current: state.current,
         addConcept,
         deleteConcept,
+        updateConcept,
         setCurrent,
         clearCurrent,
       }}
