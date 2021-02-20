@@ -34,6 +34,7 @@ const ConceptState = (props) => {
         patent: 'has patent',
       },
     ],
+    current: null,
   };
 
   const [state, dispatch] = useReducer(conceptReducer, initialState);
@@ -50,8 +51,14 @@ const ConceptState = (props) => {
   };
 
   // Set current concept
+  const setCurrent = (concept) => {
+    dispatch({ type: SET_CURRENT, payload: concept });
+  };
 
   // Clear current concept
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
 
   // Update Concept
 
@@ -63,8 +70,11 @@ const ConceptState = (props) => {
     <ConceptContext.Provider
       value={{
         concepts: state.concepts,
+        current: state.current,
         addConcept,
         deleteConcept,
+        setCurrent,
+        clearCurrent,
       }}
     >
       {props.children}

@@ -5,10 +5,11 @@ import ConceptContext from '../../context/concept/conceptContext';
 function ConceptItem({ concept }) {
   const conceptContext = useContext(ConceptContext);
 
-  const { deleteConcept } = conceptContext;
+  const { deleteConcept, setCurrent, clearCurrent } = conceptContext;
 
   const onDelete = () => {
     deleteConcept(id);
+    clearCurrent();
   };
   const { id, title, description, patent } = concept;
   return (
@@ -38,7 +39,12 @@ function ConceptItem({ concept }) {
         )}
       </ul>
       <p>
-        <button className='btn btn-dark btn-sm'>Edit</button>
+        <button
+          className='btn btn-dark btn-sm'
+          onClick={() => setCurrent(concept)}
+        >
+          Edit
+        </button>
         <button className='btn btn-danger btn-sm' onClick={onDelete}>
           Delete
         </button>
