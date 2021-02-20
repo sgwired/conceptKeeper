@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react';
-import ConceptContext from '../../context/concept/conceptContex';
+import ConceptContext from '../../context/concept/conceptContext';
 import ConceptState from '../../context/concept/ConceptState';
 import ConceptItems from '../concepts/ConceptItem';
 

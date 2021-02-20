@@ -1,10 +1,12 @@
 import React from 'react';
 import Concepts from '../concepts/Concepts';
-
+import ConceptForm from '../concepts/ConceptForm';
 function Home() {
   return (
     <div className='grid-2'>
-      <div>{/* Concepts Form */}</div>
+      <div>
+        <ConceptForm />
+      </div>
       <div>
         <Concepts />
       </div>

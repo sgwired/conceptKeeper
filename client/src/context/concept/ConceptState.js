@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
-import ConceptContext from './conceptContex';
+import { v4 } from 'uuid';
+import ConceptContext from './conceptContext';
 import conceptReducer from './conceptReducer';
 import {
   ADD_CONCEPT,
@@ -40,6 +40,11 @@ const ConceptState = (props) => {
 
   // Add concept
 
+  const addConcept = (concept) => {
+    concept.id = v4();
+    dispatch({ type: ADD_CONCEPT, payload: concept });
+  };
+
   // Delete concept
 
   // Set current concept
@@ -56,6 +61,7 @@ const ConceptState = (props) => {
     <ConceptContext.Provider
       value={{
         concepts: state.concepts,
+        addConcept,
       }}
     >
       {props.children}
