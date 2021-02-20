@@ -15,6 +15,13 @@ export default (state, action) => {
         ...state,
         concepts: [...state.concepts, action.payload],
       };
+    case DELETE_CONCEPT:
+      return {
+        ...state,
+        concepts: state.concepts.filter(
+          (concept) => concept.id !== action.payload
+        ),
+      };
     default:
       return state;
   }

@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import ConceptContext from '../../context/concept/conceptContext';
 
 function ConceptItem({ concept }) {
+  const conceptContext = useContext(ConceptContext);
+
+  const { deleteConcept } = conceptContext;
+
+  const onDelete = () => {
+    deleteConcept(id);
+  };
   const { id, title, description, patent } = concept;
   return (
     <div className='card bg-light'>
@@ -31,7 +39,9 @@ function ConceptItem({ concept }) {
       </ul>
       <p>
         <button className='btn btn-dark btn-sm'>Edit</button>
-        <button className='btn btn-danger btn-sm'>Delete</button>
+        <button className='btn btn-danger btn-sm' onClick={onDelete}>
+          Delete
+        </button>
       </p>
     </div>
   );

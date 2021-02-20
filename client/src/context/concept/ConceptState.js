@@ -39,13 +39,15 @@ const ConceptState = (props) => {
   const [state, dispatch] = useReducer(conceptReducer, initialState);
 
   // Add concept
-
   const addConcept = (concept) => {
     concept.id = v4();
     dispatch({ type: ADD_CONCEPT, payload: concept });
   };
 
   // Delete concept
+  const deleteConcept = (id) => {
+    dispatch({ type: DELETE_CONCEPT, payload: id });
+  };
 
   // Set current concept
 
@@ -62,6 +64,7 @@ const ConceptState = (props) => {
       value={{
         concepts: state.concepts,
         addConcept,
+        deleteConcept,
       }}
     >
       {props.children}
