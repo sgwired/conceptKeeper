@@ -25,7 +25,7 @@ const ConceptState = (props) => {
         id: 2,
         title: 'Second Concept',
         description: 'The description of the second concept',
-        patent: 'patent pending',
+        patent: 'has patent',
       },
       {
         id: 3,
