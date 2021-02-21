@@ -6,13 +6,21 @@ import ConceptItems from '../concepts/ConceptItem';
 function Concepts() {
   const conceptContext = useContext(ConceptContext);
 
-  const { concepts } = conceptContext;
+  const { concepts, filtered } = conceptContext;
+
+  if (concepts.length === 0) {
+    return <h4>Please add a concept</h4>;
+  }
 
   return (
     <Fragment>
-      {concepts.map((concept) => (
-        <ConceptItems key={concept.id} concept={concept} />
-      ))}
+      {filtered !== null
+        ? filtered.map((concept) => (
+            <ConceptItems key={concept.id} concept={concept} />
+          ))
+        : concepts.map((concept) => (
+            <ConceptItems key={concept.id} concept={concept} />
+          ))}
     </Fragment>
   );
 }

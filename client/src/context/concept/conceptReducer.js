@@ -42,6 +42,21 @@ export default (state, action) => {
         ...state,
         current: null,
       };
+
+    case FILTER_CONCEPTS:
+      return {
+        ...state,
+        filtered: state.concepts.filter((concept) => {
+          const regex = new RegExp(`${action.payload}`, 'gi');
+          return concept.title.match(regex) || concept.description.match(regex);
+        }),
+      };
+
+    case CLEAR_FILTER:
+      return {
+        ...state,
+        filtered: null,
+      };
     default:
       return state;
   }

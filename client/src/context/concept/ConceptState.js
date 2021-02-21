@@ -35,6 +35,7 @@ const ConceptState = (props) => {
       },
     ],
     current: null,
+    filtered: null,
   };
 
   const [state, dispatch] = useReducer(conceptReducer, initialState);
@@ -66,19 +67,27 @@ const ConceptState = (props) => {
   };
 
   // Filter Concepts
+  const filterConcepts = (text) => {
+    dispatch({ type: FILTER_CONCEPTS, payload: text });
+  };
 
   // Clear Filter
-
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
   return (
     <ConceptContext.Provider
       value={{
         concepts: state.concepts,
         current: state.current,
+        filtered: state.filtered,
         addConcept,
         deleteConcept,
         updateConcept,
         setCurrent,
         clearCurrent,
+        filterConcepts,
+        clearFilter,
       }}
     >
       {props.children}
