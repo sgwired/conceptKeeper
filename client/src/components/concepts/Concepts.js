@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import ConceptContext from '../../context/concept/conceptContext';
 import ConceptItem from '../concepts/ConceptItem';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function Concepts() {
   const conceptContext = useContext(ConceptContext);
@@ -13,13 +14,19 @@ function Concepts() {
 
   return (
     <Fragment>
-      {filtered !== null
-        ? filtered.map((concept) => (
-            <ConceptItem key={concept.id} concept={concept} />
-          ))
-        : concepts.map((concept) => (
-            <ConceptItem key={concept.id} concept={concept} />
-          ))}
+      <TransitionGroup>
+        {filtered !== null
+          ? filtered.map((concept) => (
+              <CSSTransition key={concept.id} timeout={500} classNames='item'>
+                <ConceptItem concept={concept} />
+              </CSSTransition>
+            ))
+          : concepts.map((concept) => (
+              <CSSTransition key={concept.id} timeout={500} classNames='item'>
+                <ConceptItem key={concept.id} concept={concept} />
+              </CSSTransition>
+            ))}
+      </TransitionGroup>
     </Fragment>
   );
 }
