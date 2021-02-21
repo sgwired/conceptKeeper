@@ -6,11 +6,12 @@ export const ConceptFilter = () => {
   const conceptContext = useContext(ConceptContext);
   const text = useRef('');
   const { filterConcepts, clearFilter, filtered } = conceptContext;
+
   useEffect(() => {
     if (filtered === null) {
       text.current.value = '';
     }
-  });
+  }, []);
 
   const onChange = (e) => {
     if (text.current.value !== '') {

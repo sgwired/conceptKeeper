@@ -1,7 +1,6 @@
 import React, { Fragment, useContext } from 'react';
 import ConceptContext from '../../context/concept/conceptContext';
-import ConceptState from '../../context/concept/ConceptState';
-import ConceptItems from '../concepts/ConceptItem';
+import ConceptItem from '../concepts/ConceptItem';
 
 function Concepts() {
   const conceptContext = useContext(ConceptContext);
@@ -16,10 +15,10 @@ function Concepts() {
     <Fragment>
       {filtered !== null
         ? filtered.map((concept) => (
-            <ConceptItems key={concept.id} concept={concept} />
+            <ConceptItem key={concept.id} concept={concept} />
           ))
         : concepts.map((concept) => (
-            <ConceptItems key={concept.id} concept={concept} />
+            <ConceptItem key={concept.id} concept={concept} />
           ))}
     </Fragment>
   );
