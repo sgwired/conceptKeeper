@@ -11,17 +11,30 @@ import {
   FILTER_CONCEPTS,
   CLEAR_FILTER,
   CONCEPT_ERROR,
+  GET_CONCEPTS,
+  CLEAR_ERRORS,
+  CLEAR_CONCEPTS,
 } from '../types';
 
 const ConceptState = (props) => {
   const initialState = {
-    concepts: [],
+    concepts: null,
     current: null,
     filtered: null,
     error: null,
   };
 
   const [state, dispatch] = useReducer(conceptReducer, initialState);
+
+  // Get Concepts
+  const getConcepts = async () => {
+    try {
+      const res = await axios.get('/api/concepts');
+      dispatch({ type: GET_CONCEPTS, payload: res.data });
+    } catch (error) {
+      dispatch({ type: CONCEPT_ERROR, payload: error.response.msg });
+    }
+  };
 
   // Add concept
   const addConcept = async (concept) => {
@@ -41,6 +54,13 @@ const ConceptState = (props) => {
   // Delete concept
   const deleteConcept = (id) => {
     dispatch({ type: DELETE_CONCEPT, payload: id });
+  };
+
+  // Clear concepts
+  const clearConcepts = () => {
+    dispatch({
+      type: CLEAR_CONCEPTS,
+    });
   };
 
   // Set current concept
@@ -81,6 +101,8 @@ const ConceptState = (props) => {
         clearCurrent,
         filterConcepts,
         clearFilter,
+        getConcepts,
+        clearConcepts,
       }}
     >
       {props.children}
