@@ -6,6 +6,7 @@ import {
   UPDATE_CONCEPT,
   FILTER_CONCEPTS,
   CLEAR_FILTER,
+  CONCEPT_ERROR,
 } from '../types';
 
 export default (state, action) => {
@@ -56,6 +57,11 @@ export default (state, action) => {
       return {
         ...state,
         filtered: null,
+      };
+    case CONCEPT_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
     default:
       return state;

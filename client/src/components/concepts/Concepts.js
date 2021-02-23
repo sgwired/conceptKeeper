@@ -17,13 +17,13 @@ function Concepts() {
       <TransitionGroup>
         {filtered !== null
           ? filtered.map((concept) => (
-              <CSSTransition key={concept.id} timeout={500} classNames='item'>
+              <CSSTransition key={concept._id} timeout={500} classNames='item'>
                 <ConceptItem concept={concept} />
               </CSSTransition>
             ))
           : concepts.map((concept) => (
-              <CSSTransition key={concept.id} timeout={500} classNames='item'>
-                <ConceptItem key={concept.id} concept={concept} />
+              <CSSTransition key={concept._id} timeout={500} classNames='item'>
+                <ConceptItem concept={concept} />
               </CSSTransition>
             ))}
       </TransitionGroup>

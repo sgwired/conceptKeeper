@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { v4 } from 'uuid';
+import axios from 'axios';
 import ConceptContext from './conceptContext';
 import conceptReducer from './conceptReducer';
 import {
@@ -10,40 +10,32 @@ import {
   UPDATE_CONCEPT,
   FILTER_CONCEPTS,
   CLEAR_FILTER,
+  CONCEPT_ERROR,
 } from '../types';
 
 const ConceptState = (props) => {
   const initialState = {
-    concepts: [
-      {
-        id: 1,
-        title: 'First Concept',
-        description: 'The description of the first concept',
-        patent: 'no patent',
-      },
-      {
-        id: 2,
-        title: 'Second Concept',
-        description: 'The description of the second concept',
-        patent: 'has patent',
-      },
-      {
-        id: 3,
-        title: 'Third Concept',
-        description: 'The description of the third concept',
-        patent: 'has patent',
-      },
-    ],
+    concepts: [],
     current: null,
     filtered: null,
+    error: null,
   };
 
   const [state, dispatch] = useReducer(conceptReducer, initialState);
 
   // Add concept
-  const addConcept = (concept) => {
-    concept.id = v4();
-    dispatch({ type: ADD_CONCEPT, payload: concept });
+  const addConcept = async (concept) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.post('/api/concepts/', concept, config);
+      dispatch({ type: ADD_CONCEPT, payload: res.data });
+    } catch (error) {
+      dispatch({ type: CONCEPT_ERROR, payload: error.response.msg });
+    }
   };
 
   // Delete concept
@@ -81,6 +73,7 @@ const ConceptState = (props) => {
         concepts: state.concepts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addConcept,
         deleteConcept,
         updateConcept,
