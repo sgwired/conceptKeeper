@@ -37,11 +37,12 @@ export const ConceptForm = () => {
       updateConcept(concept);
     }
 
-    setConcept({
-      title: '',
-      description: '',
-      patent: 'no patent',
-    });
+    // setConcept({
+    //   title: '',
+    //   description: '',
+    //   patent: 'no patent',
+    // });
+    clearAll();
   };
 
   const clearAll = () => {

@@ -61,6 +61,26 @@ const ConceptState = (props) => {
     }
   };
 
+  // Update Concept
+  const updateConcept = async (concept) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.put(
+        `/api/concepts/${concept._id}`,
+        concept,
+        config
+      );
+
+      dispatch({ type: UPDATE_CONCEPT, payload: res.data });
+    } catch (error) {
+      dispatch({ type: CONCEPT_ERROR, payload: 'there was an error' });
+    }
+  };
+
   // Clear concepts
   const clearConcepts = () => {
     dispatch({
@@ -76,11 +96,6 @@ const ConceptState = (props) => {
   // Clear current concept
   const clearCurrent = () => {
     dispatch({ type: CLEAR_CURRENT });
-  };
-
-  // Update Concept
-  const updateConcept = (concept) => {
-    dispatch({ type: UPDATE_CONCEPT, payload: concept });
   };
 
   // Filter Concepts

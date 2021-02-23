@@ -43,9 +43,9 @@ export default (state, action) => {
       };
     case UPDATE_CONCEPT:
       return {
-        state,
+        ...state,
         concepts: state.concepts.map((concept) =>
-          concept.id === action.payload.id ? action.payload : concept
+          concept._id === action.payload._id ? action.payload : concept
         ),
         loading: false,
       };
