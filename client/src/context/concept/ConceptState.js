@@ -52,8 +52,13 @@ const ConceptState = (props) => {
   };
 
   // Delete concept
-  const deleteConcept = (id) => {
-    dispatch({ type: DELETE_CONCEPT, payload: id });
+  const deleteConcept = async (id) => {
+    try {
+      await axios.delete(`/api/concepts/${id}`);
+      dispatch({ type: DELETE_CONCEPT, payload: id });
+    } catch (error) {
+      dispatch({ type: CONCEPT_ERROR, payload: error.response.msg });
+    }
   };
 
   // Clear concepts

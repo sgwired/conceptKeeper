@@ -7,11 +7,13 @@ function ConceptItem({ concept }) {
 
   const { deleteConcept, setCurrent, clearCurrent } = conceptContext;
 
+  const { _id, title, description, patent } = concept;
+
   const onDelete = () => {
-    deleteConcept(id);
+    deleteConcept(_id);
     clearCurrent();
   };
-  const { id, title, description, patent } = concept;
+
   return (
     <div className='card bg-light'>
       <h3 className='text-primary text-left'>
@@ -29,12 +31,12 @@ function ConceptItem({ concept }) {
       <ul className='list'>
         {title && (
           <li>
-            <i class='far fa-lightbulb'></i> {title}
+            <i className='far fa-lightbulb'></i> {title}
           </li>
         )}
         {description && (
           <li>
-            <i class='far fa-keyboard'></i> {description}
+            <i className='far fa-keyboard'></i> {description}
           </li>
         )}
       </ul>

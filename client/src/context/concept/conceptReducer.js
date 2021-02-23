@@ -22,14 +22,14 @@ export default (state, action) => {
     case ADD_CONCEPT:
       return {
         ...state,
-        concepts: [...state.concepts, action.payload],
+        concepts: [action.payload, ...state.concepts],
         loading: false,
       };
     case DELETE_CONCEPT:
       return {
         ...state,
         concepts: state.concepts.filter(
-          (concept) => concept.id !== action.payload
+          (concept) => concept._id !== action.payload
         ),
         loading: false,
       };
